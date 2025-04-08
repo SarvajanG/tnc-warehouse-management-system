@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/tnc-warehouse-management-system/static/css/main.e6c13ad2.css",
+    "main.js": "/tnc-warehouse-management-system/static/js/main.c125ea77.js",
+    "static/js/453.93b3fb74.chunk.js": "/tnc-warehouse-management-system/static/js/453.93b3fb74.chunk.js",
+    "index.html": "/tnc-warehouse-management-system/index.html",
+    "main.e6c13ad2.css.map": "/tnc-warehouse-management-system/static/css/main.e6c13ad2.css.map",
+    "main.c125ea77.js.map": "/tnc-warehouse-management-system/static/js/main.c125ea77.js.map",
+    "453.93b3fb74.chunk.js.map": "/tnc-warehouse-management-system/static/js/453.93b3fb74.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.c125ea77.js"
+  ]
+}
