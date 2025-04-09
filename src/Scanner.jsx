@@ -1,4 +1,3 @@
-// src/Scanner.js
 import { useState } from "react";
 import { db } from "./firebase";
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
