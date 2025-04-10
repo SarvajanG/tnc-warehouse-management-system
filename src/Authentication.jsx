@@ -18,8 +18,8 @@ export default function Authentication() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        // If user is logged in, navigate to the protected route (scanner)
-        navigate("/scanner");
+        // If user is logged in, navigate to the protected route (home)
+        navigate("/home");
       } else {
         navigate("/")
       }
