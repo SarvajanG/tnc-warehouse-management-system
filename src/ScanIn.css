@@ -1,0 +1,37 @@
+.scan-in-container {
+    height: 100vh;
+    background-color: purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .scan-in-item-container {
+    width: 100%;
+    max-width: 25rem;
+    height: 40%;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  .scan-in-input {
+    padding: 1rem;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: text;
+    background-color: white;
+  }
+
+  .scan-in-button {
+    padding: 1rem;
+    width: 100%;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+    color: white;
+    background-color: orange;
+    font-size: 1rem;
+    cursor: pointer;
+  }
