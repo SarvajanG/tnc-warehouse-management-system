@@ -1,3 +1,4 @@
+import './Authentication.css';
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import {
@@ -58,7 +59,7 @@ export default function Authentication() {
 
   return (
     <div className="auth-container">
-      <div className="item-container">
+      <div className="auth-item-container">
         <input
           className="auth-input"
           placeholder="Email"
