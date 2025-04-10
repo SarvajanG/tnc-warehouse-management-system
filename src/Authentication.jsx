@@ -50,7 +50,7 @@ export default function Authentication() {
   const logIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/scanner");
+      navigate("/home");
     } catch (e) {
       alert("Sign in failed: Incorrect Email or Password");
     }
