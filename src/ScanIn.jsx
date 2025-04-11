@@ -11,6 +11,7 @@ import "./ScanIn.css";
 import InputField from "./InputField";
 import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
+import Settings from "./Settings";
 
 export default function ScanIn() {
   const [itemName, setItemName] = useState("");
@@ -83,6 +84,7 @@ export default function ScanIn() {
           </Typography>
         )}
       </div>
+      <Settings />
     </div>
   );
 }
