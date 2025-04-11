@@ -24,12 +24,13 @@ export default function ScanIn() {
       const itemSnap = await getDoc(itemRef);
 
       if (itemSnap.exists()) {
+        const itemQuantity = itemSnap.data().quantity
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}), //Update item name if provided
-          quantity: itemSnap.data().quantity + 1,
+          quantity: itemQuantity + 1,
           lastScanned: serverTimestamp(),
         });
-        setMessage(`Updated quantity for ${barcode}`);
+        setMessage(`Updated quantity for ${barcode} is ${itemQuantity}`);
       } else {
         await setDoc(itemRef, {
           ...(itemName ? { name: itemName } : { name: "Unknown" }),
