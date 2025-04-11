@@ -9,6 +9,8 @@ import {
 } from "firebase/firestore";
 import "./ScanIn.css";
 import InputField from "./InputField";
+import HomeButton from "./HomeButton";
+import { Typography } from "@mui/material";
 
 export default function ScanIn() {
   const [itemName, setItemName] = useState("");
@@ -30,7 +32,7 @@ export default function ScanIn() {
         setMessage(`Updated quantity for ${barcode}`);
       } else {
         await setDoc(itemRef, {
-          ...(itemName ? { name: itemName } : {name: "Unknown"}),
+          ...(itemName ? { name: itemName } : { name: "Unknown" }),
           quantity: 1,
           lastScanned: serverTimestamp(),
         });
@@ -44,6 +46,16 @@ export default function ScanIn() {
 
   return (
     <div className="scan-in-container">
+      <HomeButton />
+      <Typography
+        className="scan-in-title"
+        color={"white"}
+        fontWeight={"bold"}
+        fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
+        textAlign={"center"}
+      >
+        Scan IN an Item
+      </Typography>
       <div className="scan-in-item-container">
         <InputField
           className="scan-in-input"
@@ -58,9 +70,18 @@ export default function ScanIn() {
           onChange={(e) => setBarcode(e.target.value)}
           onKeyDown={handleScan}
         />
+        {message && (
+          <Typography
+            className="scan-in-message"
+            color={"white"}
+            fontWeight={"bold"}
+            fontSize="clamp(1rem, 2vw + 1rem, 1.5rem)" // Adjust these values as needed
+            textAlign={"center"}
+          >
+            {message}
+          </Typography>
+        )}
       </div>
-
-      {message && <p className="mt-2 text-green-600">{message}</p>}
     </div>
   );
 }
