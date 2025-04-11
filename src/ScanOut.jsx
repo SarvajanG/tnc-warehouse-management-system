@@ -3,7 +3,6 @@ import { db } from "./firebase";
 import {
   doc,
   getDoc,
-  setDoc,
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -13,7 +12,7 @@ import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
 import Settings from "./Settings";
 
-export default function ScanIn() {
+export default function ScanOut() {
   const [itemName, setItemName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [message, setMessage] = useState("");
@@ -28,17 +27,12 @@ export default function ScanIn() {
         const itemQuantity = itemSnap.data().quantity
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}), //Update item name if provided
-          quantity: itemQuantity + 1,
+          quantity: itemQuantity - 1,
           lastScanned: serverTimestamp(),
         });
         setMessage(`Updated quantity for ${itemId} is ${itemQuantity}`);
       } else {
-        await setDoc(itemRef, {
-          ...(itemName ? { name: itemName } : { name: "Unknown" }),
-          quantity: 1,
-          lastScanned: serverTimestamp(),
-        });
-        setMessage(`Created new item ${itemId}`);
+        setMessage(`${itemId} does not exist`);
       }
 
       setBarcode("");
@@ -56,15 +50,9 @@ export default function ScanIn() {
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
         textAlign={"center"}
       >
-        Scan IN an Item
+        Scan Out an Item
       </Typography>
       <div className="scan-in-item-container">
-        <InputField
-          className="scan-in-input"
-          label="Item Name (Optional)"
-          value={itemName}
-          onChange={(e) => setItemName(e.target.value)}
-        />
         <InputField
           className="scan-in-input"
           label="Scan Barcode Here"
