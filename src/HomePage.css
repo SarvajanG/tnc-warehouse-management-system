@@ -29,6 +29,7 @@
   cursor: pointer;
 }
 
+/* UNUSED */
 .home-settings-button-container {
   position: fixed;
   bottom: 1rem;
@@ -36,6 +37,7 @@
  
 }
 
+/* UNUSED */
 .home-settings-button {
   color: orange;
   font-size: 3rem;
@@ -63,6 +65,7 @@
     }
 }
 
+/* UNUSED */
 .home-exit-settings-button {
     position: absolute;
     font-size: 3rem;
@@ -72,6 +75,7 @@
     cursor: pointer;
 }
 
+/* UNUSED */
 .home-sign-out-button {
     width: 80%;
     height: 3rem;
