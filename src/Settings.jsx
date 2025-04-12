@@ -44,7 +44,7 @@ export default function Settings() {
       </IconButton>
 
       {settingsVisible && (
-        <div className="home-settings">
+        <div className="settings">
           <IconButton
             sx={{
               height: "4rem",

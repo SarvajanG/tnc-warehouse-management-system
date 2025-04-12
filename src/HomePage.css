@@ -17,35 +17,7 @@
   padding: 0 1rem;
 }
 
-/*UNUSED*/
-.home-button {
-  padding: 1rem;
-  width: 100%;
-  border-radius: 25px;
-  border: none;
-  font-weight: bold;
-  color: white;
-  background-color: orange;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* UNUSED */
-.home-settings-button-container {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
- 
-}
-
-/* UNUSED */
-.home-settings-button {
-  color: orange;
-  font-size: 3rem;
-  cursor: pointer;
-}
-
-.home-settings {
+.settings {
     position: fixed;
     bottom: 0;
     right: 0;
@@ -60,24 +32,8 @@
     box-shadow: 8px 8px 30px rgba(0, 0, 0, 0.9);
 }
 @media only screen and (max-width: 480px) {
-    .home-settings {
+    .settings {
         height: 100%;
         width: 100%;
     }
-}
-
-/* UNUSED */
-.home-exit-settings-button {
-    position: absolute;
-    font-size: 3rem;
-    top: 1rem;
-    right: 1rem;
-    color: purple;
-    cursor: pointer;
-}
-
-/* UNUSED */
-.home-sign-out-button {
-    width: 80%;
-    height: 3rem;
 }
