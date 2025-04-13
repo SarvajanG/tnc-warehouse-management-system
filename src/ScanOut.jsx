@@ -12,6 +12,7 @@ import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
 import Settings from "./Settings";
 import Container from "./Container";
+import ItemContainer from "./ItemContainer";
 
 export default function ScanOut() {
   const [itemName, setItemName] = useState("");
@@ -53,7 +54,7 @@ export default function ScanOut() {
       >
         Scan Out an Item
       </Typography>
-      <div className="scan-out-item-container">
+      <ItemContainer height="20%">
         <InputField
           className="scan-out-input"
           label="Scan Barcode Here"
@@ -72,7 +73,7 @@ export default function ScanOut() {
             {message}
           </Typography>
         )}
-      </div>
+      </ItemContainer>
       <Settings />
     </Container>
   );

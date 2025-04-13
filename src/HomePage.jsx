@@ -7,6 +7,7 @@ import BarcodeReaderIcon from "@mui/icons-material/BarcodeReader";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Typography } from "@mui/material";
 import Container from "./Container";
+import ItemContainer from "./ItemContainer";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function HomePage() {
       >
         Select an Operation
       </Typography>
-      <div className="home-item-container">
+      <ItemContainer height="40%">
         <CommonButton
           startIcon={<BarcodeReaderIcon sx={{ color: "#008fff" }} />}
           text="SCAN IN"
@@ -46,7 +47,7 @@ export default function HomePage() {
             navigate("/inventory");
           }}
         />
-      </div>
+      </ItemContainer>
       <Settings />
     </Container>
   );

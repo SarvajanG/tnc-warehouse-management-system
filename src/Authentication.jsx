@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Container from './Container';
+import ItemContainer from './ItemContainer';
 
 export default function Authentication() {
   const [email, setEmail] = useState("");
@@ -60,7 +61,7 @@ export default function Authentication() {
 
   return (
     <Container>
-      <div className="auth-item-container">
+      <ItemContainer height="40%">
         <input
           className="auth-input"
           placeholder="Email"
@@ -80,7 +81,7 @@ export default function Authentication() {
         <button className="auth-button" onClick={signUp}>
           Sign Up
         </button>
-      </div>
+      </ItemContainer>
     </Container>
   );
 }

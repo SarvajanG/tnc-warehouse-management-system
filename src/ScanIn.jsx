@@ -13,6 +13,7 @@ import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
 import Settings from "./Settings";
 import Container from "./Container";
+import ItemContainer from "./ItemContainer";
 
 export default function ScanIn() {
   const [itemName, setItemName] = useState("");
@@ -59,7 +60,7 @@ export default function ScanIn() {
       >
         Scan IN an Item
       </Typography>
-      <div className="scan-in-item-container">
+      <ItemContainer height="30%">
         <InputField
           className="scan-in-input"
           label="Item Name (Optional)"
@@ -84,7 +85,7 @@ export default function ScanIn() {
             {message}
           </Typography>
         )}
-      </div>
+      </ItemContainer>
       <Settings />
     </Container>
   );
