@@ -27,10 +27,10 @@ export default function ScanIn() {
       const itemSnap = await getDoc(itemRef);
 
       if (itemSnap.exists()) {
-        let itemQuantity = itemSnap.data().quantity
+        let itemQuantity = itemSnap.data().quantity;
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}), //Update item name if provided
-          quantity: itemQuantity += 1,
+          quantity: (itemQuantity += 1),
           lastScanned: serverTimestamp(),
         });
         setMessage(`Updated quantity for ${itemId} is ${itemQuantity}`);
@@ -52,7 +52,6 @@ export default function ScanIn() {
     <Container>
       <HomeButton />
       <Typography
-        className="scan-in-title"
         color={"white"}
         fontWeight={"bold"}
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
@@ -62,13 +61,11 @@ export default function ScanIn() {
       </Typography>
       <ItemContainer height="30%">
         <InputField
-          className="scan-in-input"
           label="Item Name (Optional)"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
         />
         <InputField
-          className="scan-in-input"
           label="Scan Barcode Here"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
@@ -76,7 +73,6 @@ export default function ScanIn() {
         />
         {message && (
           <Typography
-            className="scan-in-message"
             color={"white"}
             fontWeight={"bold"}
             fontSize="clamp(1rem, 2vw + 1rem, 1.5rem)" // Adjust these values as needed

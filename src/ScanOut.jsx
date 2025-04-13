@@ -46,7 +46,6 @@ export default function ScanOut() {
     <Container>
       <HomeButton />
       <Typography
-        className="scan-out-title"
         color={"white"}
         fontWeight={"bold"}
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
@@ -56,7 +55,6 @@ export default function ScanOut() {
       </Typography>
       <ItemContainer height="20%">
         <InputField
-          className="scan-out-input"
           label="Scan Barcode Here"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
@@ -64,7 +62,6 @@ export default function ScanOut() {
         />
         {message && (
           <Typography
-            className="scan-out-message"
             color={"white"}
             fontWeight={"bold"}
             fontSize="clamp(1rem, 2vw + 1rem, 1.5rem)" // Adjust these values as needed
