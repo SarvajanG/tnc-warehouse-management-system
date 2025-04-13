@@ -6,7 +6,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import "./ScanIn.css";
+import "./ScanOut.css";
 import InputField from "./InputField";
 import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
@@ -41,10 +41,10 @@ export default function ScanOut() {
   };
 
   return (
-    <div className="scan-in-container">
+    <div className="scan-out-container">
       <HomeButton />
       <Typography
-        className="scan-in-title"
+        className="scan-out-title"
         color={"white"}
         fontWeight={"bold"}
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
@@ -52,9 +52,9 @@ export default function ScanOut() {
       >
         Scan Out an Item
       </Typography>
-      <div className="scan-in-item-container">
+      <div className="scan-out-item-container">
         <InputField
-          className="scan-in-input"
+          className="scan-out-input"
           label="Scan Barcode Here"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
@@ -62,7 +62,7 @@ export default function ScanOut() {
         />
         {message && (
           <Typography
-            className="scan-in-message"
+            className="scan-out-message"
             color={"white"}
             fontWeight={"bold"}
             fontSize="clamp(1rem, 2vw + 1rem, 1.5rem)" // Adjust these values as needed
