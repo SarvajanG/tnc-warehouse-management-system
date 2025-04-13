@@ -6,6 +6,7 @@ import useAuthChecker from "./useAuthChecker";
 import BarcodeReaderIcon from "@mui/icons-material/BarcodeReader";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Typography } from "@mui/material";
+import Container from "./Container";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function HomePage() {
   useAuthChecker();
 
   return (
-    <div className="home-container">
+    <Container>
       <Typography
         className="scan-in-title"
         color={"white"}
@@ -47,6 +48,6 @@ export default function HomePage() {
         />
       </div>
       <Settings />
-    </div>
+    </Container>
   );
 }

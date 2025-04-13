@@ -8,6 +8,7 @@ import {
   signOut
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Container from './Container';
 
 export default function Authentication() {
   const [email, setEmail] = useState("");
@@ -58,7 +59,7 @@ export default function Authentication() {
   };
 
   return (
-    <div className="auth-container">
+    <Container>
       <div className="auth-item-container">
         <input
           className="auth-input"
@@ -80,6 +81,6 @@ export default function Authentication() {
           Sign Up
         </button>
       </div>
-    </div>
+    </Container>
   );
 }

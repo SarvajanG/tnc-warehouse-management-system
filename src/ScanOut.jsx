@@ -11,6 +11,7 @@ import InputField from "./InputField";
 import HomeButton from "./HomeButton";
 import { Typography } from "@mui/material";
 import Settings from "./Settings";
+import Container from "./Container";
 
 export default function ScanOut() {
   const [itemName, setItemName] = useState("");
@@ -41,7 +42,7 @@ export default function ScanOut() {
   };
 
   return (
-    <div className="scan-out-container">
+    <Container>
       <HomeButton />
       <Typography
         className="scan-out-title"
@@ -73,6 +74,6 @@ export default function ScanOut() {
         )}
       </div>
       <Settings />
-    </div>
+    </Container>
   );
 }
