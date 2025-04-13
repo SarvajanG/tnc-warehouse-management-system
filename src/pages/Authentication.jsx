@@ -1,16 +1,15 @@
-import "./Authentication.css";
 import { useState } from "react";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import Container from "./Container";
-import ItemContainer from "./ItemContainer";
-import InputField from "./InputField";
-import CommonButton from "./CommonButton";
-import useAuthChecker from "./useAuthChecker";
+import Container from "../components/Container";
+import ItemContainer from "../components/ItemContainer";
+import InputField from "../components/InputField";
+import CommonButton from "../components/CommonButton";
+import useAuthChecker from "../hooks/useAuthChecker";
 
 export default function Authentication() {
   const [email, setEmail] = useState("");

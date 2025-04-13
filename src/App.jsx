@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Authentication from "./Authentication.jsx";
-import HomePage from "./HomePage.jsx";
-import ScanIn from "./ScanIn.jsx";
-import ScanOut from "./ScanOut.jsx";
+import Authentication from "./pages/Authentication.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import ScanIn from "./pages/ScanIn.jsx";
+import ScanOut from "./pages/ScanOut.jsx";
 
 export default function App() {
   return (

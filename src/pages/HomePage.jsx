@@ -1,13 +1,12 @@
-import "./HomePage.css";
 import { useNavigate } from "react-router-dom";
-import Settings from "./Settings";
-import CommonButton from "./CommonButton";
-import useAuthChecker from "./useAuthChecker";
+import Settings from "../components/Settings";
+import CommonButton from "../components/CommonButton";
+import useAuthChecker from "../hooks/useAuthChecker";
 import BarcodeReaderIcon from "@mui/icons-material/BarcodeReader";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { Typography } from "@mui/material";
-import Container from "./Container";
-import ItemContainer from "./ItemContainer";
+import Container from "../components/Container";
+import ItemContainer from "../components/ItemContainer";
 
 export default function HomePage() {
   const navigate = useNavigate();
