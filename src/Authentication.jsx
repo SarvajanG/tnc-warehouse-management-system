@@ -1,39 +1,23 @@
 import "./Authentication.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth } from "./firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Container from "./Container";
 import ItemContainer from "./ItemContainer";
 import InputField from "./InputField";
 import CommonButton from "./CommonButton";
+import useAuthChecker from "./useAuthChecker";
 
 export default function Authentication() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Check if user is already authenticated and redirect if necessary
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // If user is logged in, navigate to the protected route (home)
-        navigate("/home");
-      } else {
-        navigate("/");
-      }
-    });
-
-    signOut(auth);
-
-    // Clean up the subscription on component unmount
-    return unsubscribe;
-  }, [navigate]);
+  useAuthChecker();
 
   const handleSetEmail = (e) => {
     setEmail(e.target.value);

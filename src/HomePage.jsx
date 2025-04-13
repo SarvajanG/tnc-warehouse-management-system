@@ -17,7 +17,6 @@ export default function HomePage() {
   return (
     <Container>
       <Typography
-        className="scan-in-title"
         color={"white"}
         fontWeight={"bold"}
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed

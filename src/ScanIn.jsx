@@ -14,11 +14,14 @@ import { Typography } from "@mui/material";
 import Settings from "./Settings";
 import Container from "./Container";
 import ItemContainer from "./ItemContainer";
+import useAuthChecker from "./useAuthChecker";
 
 export default function ScanIn() {
   const [itemName, setItemName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [message, setMessage] = useState("");
+
+  useAuthChecker();
 
   const handleScan = async (e) => {
     if (e.key === "Enter") {

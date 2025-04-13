@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { db } from "./firebase";
-import {
-  doc,
-  getDoc,
-  updateDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import "./ScanOut.css";
 import InputField from "./InputField";
 import HomeButton from "./HomeButton";
@@ -13,11 +8,14 @@ import { Typography } from "@mui/material";
 import Settings from "./Settings";
 import Container from "./Container";
 import ItemContainer from "./ItemContainer";
+import useAuthChecker from "./useAuthChecker";
 
 export default function ScanOut() {
   const [itemName, setItemName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [message, setMessage] = useState("");
+
+  useAuthChecker();
 
   const handleScan = async (e) => {
     if (e.key === "Enter") {
@@ -26,10 +24,10 @@ export default function ScanOut() {
       const itemSnap = await getDoc(itemRef);
 
       if (itemSnap.exists()) {
-        let itemQuantity = itemSnap.data().quantity
+        let itemQuantity = itemSnap.data().quantity;
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}), //Update item name if provided
-          quantity: itemQuantity -= 1,
+          quantity: (itemQuantity -= 1),
           lastScanned: serverTimestamp(),
         });
         setMessage(`Updated quantity for ${itemId} is ${itemQuantity}`);

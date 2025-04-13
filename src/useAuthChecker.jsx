@@ -8,11 +8,8 @@ export default function useAuthChecker() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/home"); // If user is logged in, navigate to home
-      } else {
+      if (!user) {
         navigate("/", { replace: true }); // Redirect to the authentication page
-        navigate(0); // Refresh the page to avoid history buttons being used
       }
     });
 
