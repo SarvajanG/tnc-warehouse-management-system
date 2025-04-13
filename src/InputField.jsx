@@ -5,6 +5,7 @@ export default function InputField(props) {
       autoFocus
       className={props.className}
       value={props.value}
+      type={props.type}
       onChange={props.onChange}
       onKeyDown={props.onKeyDown}
       label={props.label}

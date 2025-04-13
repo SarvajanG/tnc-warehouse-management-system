@@ -1,15 +1,17 @@
-import './Authentication.css';
+import "./Authentication.css";
 import { useState, useEffect } from "react";
 import { auth } from "./firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import Container from './Container';
-import ItemContainer from './ItemContainer';
+import Container from "./Container";
+import ItemContainer from "./ItemContainer";
+import InputField from "./InputField";
+import CommonButton from "./CommonButton";
 
 export default function Authentication() {
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ export default function Authentication() {
         // If user is logged in, navigate to the protected route (home)
         navigate("/home");
       } else {
-        navigate("/")
+        navigate("/");
       }
     });
 
@@ -61,26 +63,16 @@ export default function Authentication() {
 
   return (
     <Container>
-      <ItemContainer height="40%">
-        <input
-          className="auth-input"
-          placeholder="Email"
-          value={email}
-          onChange={handleSetEmail}
-        ></input>
-        <input
-          className="auth-input"
-          placeholder="Password"
+      <ItemContainer height="45%">
+        <InputField label="Email" value={email} onChange={handleSetEmail} />
+        <InputField
+          label="Password"
           type="password"
           value={password}
           onChange={handleSetPassword}
-        ></input>
-        <button className="auth-button" onClick={logIn}>
-          Log In
-        </button>
-        <button className="auth-button" onClick={signUp}>
-          Sign Up
-        </button>
+        />
+        <CommonButton text="Log In" onClick={logIn} />
+        <CommonButton text="Sign Up" onClick={signUp} />
       </ItemContainer>
     </Container>
   );
