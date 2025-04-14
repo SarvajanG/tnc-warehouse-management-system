@@ -28,3 +28,24 @@ body {
       width: 100%;
   }
 }
+
+
+/* Style the scrollbar track */
+.scrollable-inventory::-webkit-scrollbar {
+  width: 14px; /* Width of the entire scrollbar */
+  background-color: #ffa500; /* Background of the scrollbar track */
+  border-radius: 10px; /* Rounded corners for the track */
+}
+
+/* Style the scrollbar thumb */
+.scrollable-inventory::-webkit-scrollbar-thumb {
+  background-color: #800080; /* Color of the scrollbar thumb */
+  border-radius: 8px; /* Rounded corners for the thumb */
+  border: 3px solid transparent; /* Creates space around the thumb */
+  background-clip: content-box; /* Ensures the border doesn't affect the thumb size */
+}
+
+/* Style the scrollbar thumb on hover */
+.scrollable-inventory::-webkit-scrollbar-thumb:hover {
+  background-color: #a100a1; /* Lighter color on hover */
+}

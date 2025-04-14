@@ -1,17 +1,25 @@
 import { Box } from "@mui/material";
 
-export default function ItemContainer({ children, height }) {
+export default function ItemContainer({
+  children,
+  height,
+  maxWidth = "25rem",
+  overflow,
+  className
+}) {
   return (
     <Box
+      className = {className}
       sx={{
         height: height,
         width: "100%",
-        maxWidth: "25rem",
+        maxWidth: maxWidth,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
         padding: "0 1rem",
+        overflow: overflow,
       }}
     >
       {children}
