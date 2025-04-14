@@ -5,17 +5,18 @@ export default function InventoryItem(props) {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
         alignItems: "center",
-        padding: "1rem",
+        padding: "1rem 0.5rem",
         width: "100%",
         backgroundColor: "orange",
-        margin: "0.5rem 0"
+        margin: "0.5rem 0",
+        borderRadius: "10px"
       }}
     >
-      <Typography sx={{ flex: 1, textAlign: "center" }}>{props.id}</Typography>
-      <Typography sx={{ flex: 1, textAlign: "center" }}>{props.name}</Typography>
-      <Typography sx={{ flex: 1, textAlign: "center" }}>{props.quantity}</Typography>
+      <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.id}</Typography>
+      <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.name}</Typography>
+      <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.quantity}</Typography>
     </Box>
   );
 }

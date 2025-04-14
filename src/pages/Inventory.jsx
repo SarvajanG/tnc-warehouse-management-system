@@ -3,12 +3,17 @@ import Settings from "../components/Settings";
 import Container from "../components/Container";
 import ItemContainer from "../components/ItemContainer";
 import InventoryItem from "../components/InventoryItem";
+import useAuthChecker from "../hooks/useAuthChecker";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import InventoryLabels from "../components/InventoryLabels";
+import { Typography } from "@mui/material";
 
 export default function Inventory() {
   const [items, setItems] = useState([]);
+
+  useAuthChecker();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -27,12 +32,21 @@ export default function Inventory() {
   return (
     <Container>
       <HomeButton />
+      <Typography
+        color={"white"}
+        fontWeight={"bold"}
+        fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
+        textAlign={"center"}
+      >
+        Inventory
+      </Typography>
       <ItemContainer
         className="scrollable-inventory"
         height="70%"
         maxWidth="100%"
         overflow="auto"
       >
+        <InventoryLabels />
         {items.map((item, index) => (
           <InventoryItem
             key={index}
@@ -42,6 +56,7 @@ export default function Inventory() {
           />
         ))}
       </ItemContainer>
+
       <Settings />
     </Container>
   );
