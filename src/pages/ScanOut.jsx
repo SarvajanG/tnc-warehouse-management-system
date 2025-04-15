@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { db } from "../firebase";
-import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  increment,
+  serverTimestamp,
+} from "firebase/firestore";
 import InputField from "../components/InputField";
 import HomeButton from "../components/HomeButton";
 import { Typography } from "@mui/material";
@@ -10,28 +16,47 @@ import ItemContainer from "../components/ItemContainer";
 import useAuthChecker from "../hooks/useAuthChecker";
 
 export default function ScanOut() {
+  useAuthChecker();
+
   const [itemName, setItemName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [message, setMessage] = useState("");
 
-  useAuthChecker();
+  let oldItemId = useRef(null);
+  let itemQuantity = useRef(null);
 
   const handleScan = async (e) => {
-    if (e.key === "Enter") {
+    setMessage("");
+    if (e.key === "Enter" && barcode) {
       const itemId = barcode.trim();
       const itemRef = doc(db, "items", itemId);
-      const itemSnap = await getDoc(itemRef);
 
-      if (itemSnap.exists()) {
-        let itemQuantity = itemSnap.data().quantity;
+      //Logic to only request document once for consecutive scans
+      if (oldItemId.current !== itemId) {
+        try {
+          const snap = await getDoc(itemRef);
+          if (snap.exists()) {
+            itemQuantity.current = snap.data().quantity;
+          }
+        } catch (err) {
+          console.error("Error reading doc:", err);
+          return;
+        }
+        oldItemId.current = itemId;
+      }
+
+      try {
         await updateDoc(itemRef, {
-          ...(itemName ? { name: itemName } : {}), //Update item name if provided
-          quantity: (itemQuantity -= 1),
+          ...(itemName ? { name: itemName } : {}),
+          quantity: increment(-1),
           lastScanned: serverTimestamp(),
         });
-        setMessage(`Updated quantity for ${itemId} is ${itemQuantity}`);
-      } else {
-        setMessage(`${itemId} does not exist`);
+        itemQuantity.current -= 1;
+        setMessage(`Updated quantity for ${itemId} is ${itemQuantity.current}`);
+      } catch (err) {
+        if (err.code === "not-found") {
+          setMessage("Item doesn't exist in storage");
+        }
       }
 
       setBarcode("");
