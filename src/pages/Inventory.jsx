@@ -4,16 +4,16 @@ import Container from "../components/Container";
 import ItemContainer from "../components/ItemContainer";
 import InventoryItem from "../components/InventoryItem";
 import useAuthChecker from "../hooks/useAuthChecker";
-import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import InventoryLabels from "../components/InventoryLabels";
 import { Typography } from "@mui/material";
+import { db } from "../firebase";
+import { getDocs, collection } from "firebase/firestore";
 
 export default function Inventory() {
-  const [items, setItems] = useState([]);
-
   useAuthChecker();
+
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     const fetchItems = async () => {
