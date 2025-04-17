@@ -2,7 +2,7 @@ import TextField from "@mui/material/TextField";
 export default function InputField(props) {
   return (
     <TextField
-      autoFocus
+      autoFocus={props.autoFocus}
       className={props.className}
       value={props.value}
       type={props.type}

@@ -18,7 +18,7 @@ import useAuthChecker from "../hooks/useAuthChecker";
 
 export default function ScanIn() {
   useAuthChecker();
-  
+
   const [itemName, setItemName] = useState("");
   const [barcode, setBarcode] = useState("");
   const [message, setMessage] = useState("");
@@ -94,6 +94,7 @@ export default function ScanIn() {
           onChange={(e) => setItemName(e.target.value)}
         />
         <InputField
+          autoFocus="true"
           label="Scan Barcode Here"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}

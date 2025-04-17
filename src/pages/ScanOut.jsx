@@ -77,6 +77,7 @@ export default function ScanOut() {
       </Typography>
       <ItemContainer height="20%">
         <InputField
+          autoFocus="true"
           label="Scan Barcode Here"
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}

@@ -47,7 +47,12 @@ export default function Authentication() {
   return (
     <Container>
       <ItemContainer height="45%">
-        <InputField label="Email" value={email} onChange={handleSetEmail} />
+        <InputField
+          autoFocus="true"
+          label="Email"
+          value={email}
+          onChange={handleSetEmail}
+        />
         <InputField
           label="Password"
           type="password"
