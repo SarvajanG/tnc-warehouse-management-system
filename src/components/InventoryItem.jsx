@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 export default function InventoryItem(props) {
   return (
     <Box
+      onClick={props.onClick}
       sx={{
         display: "flex",
         justifyContent: "space-evenly",
@@ -11,7 +12,8 @@ export default function InventoryItem(props) {
         width: "100%",
         backgroundColor: "orange",
         margin: "0.5rem 0",
-        borderRadius: "10px"
+        borderRadius: "10px",
+        cursor: "pointer"
       }}
     >
       <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.id}</Typography>

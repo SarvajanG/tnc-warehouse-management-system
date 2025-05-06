@@ -10,10 +10,18 @@ import { Typography } from "@mui/material";
 import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 
+import ItemView from "../components/ItemView";
+
 export default function Inventory() {
   useAuthChecker();
 
   const [items, setItems] = useState([]);
+  const [itemViewVisible, setItemViewVisible] = useState(false);
+  const [itemValues, setItemValues] = useState({
+    Id: "",
+    Name: "",
+    Quantity: "",
+  });
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -28,6 +36,19 @@ export default function Inventory() {
 
     fetchItems();
   }, []);
+
+  const itemViewHandler = (Id, Name, Quantity) => {
+    setItemValues({
+      Id: Id,
+      Name: Name,
+      Quantity: Quantity,
+    });
+    toggleItemView();
+  };
+
+  const toggleItemView = () => {
+    setItemViewVisible(!itemViewVisible);
+  };
 
   return (
     <Container>
@@ -53,10 +74,11 @@ export default function Inventory() {
             id={item.id}
             name={item.name}
             quantity={item.quantity}
+            onClick={() => itemViewHandler(item.id, item.name, item.quantity)}
           />
         ))}
       </ItemContainer>
-
+      {itemViewVisible && <ItemView Id={itemValues.Id} Name={itemValues.Name} Quantity={itemValues.Quantity} onClick={toggleItemView} />}
       <Settings />
     </Container>
   );
