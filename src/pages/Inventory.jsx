@@ -23,17 +23,17 @@ export default function Inventory() {
     Quantity: "",
   });
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      const itemsRef = collection(db, "items");
-      const itemsSnap = await getDocs(itemsRef);
-      const itemsList = itemsSnap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setItems(itemsList);
-    };
+  const fetchItems = async () => {
+    const itemsRef = collection(db, "items");
+    const itemsSnap = await getDocs(itemsRef);
+    const itemsList = itemsSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setItems(itemsList);
+  };
 
+  useEffect(() => {
     fetchItems();
   }, []);
 
@@ -78,7 +78,22 @@ export default function Inventory() {
           />
         ))}
       </ItemContainer>
-      {itemViewVisible && <ItemView Id={itemValues.Id} Name={itemValues.Name} Quantity={itemValues.Quantity} onClick={toggleItemView} />}
+      {itemViewVisible && (
+        <ItemView
+          Id={itemValues.Id}
+          Name={itemValues.Name}
+          Quantity={itemValues.Quantity}
+          onClick={toggleItemView}
+          onUpdate={() => {
+            fetchItems();           // Refresh item list
+            toggleItemView();       // Close the ItemView
+          }}
+          onDelete={() => {
+            fetchItems(); 
+            toggleItemView();
+          }}
+        />
+      )}
       <Settings />
     </Container>
   );

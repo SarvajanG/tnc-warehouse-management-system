@@ -10,6 +10,7 @@ export default function InputField(props) {
       onKeyDown={props.onKeyDown}
       label={props.label}
       variant="filled"
+      disabled={props.disabled}
       sx={{
         width: "100%",
         border: "none",
