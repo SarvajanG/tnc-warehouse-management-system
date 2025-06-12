@@ -7,7 +7,7 @@ import Inventory from "./pages/Inventory.jsx";
 
 export default function App() {
   return (
-    <BrowserRouter basename="/tnc-warehouse-management-system">
+    <BrowserRouter /*basename="/tnc-warehouse-management-system"*/>
       <Routes>
         <Route path="/" element={<Authentication />} />
         <Route path="/home" element={<HomePage />} />
