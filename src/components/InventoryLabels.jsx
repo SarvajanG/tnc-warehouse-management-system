@@ -18,7 +18,7 @@ export default function InventoryLabels() {
       }}
     >
       <Typography sx={{ flex: 1, textAlign: "center", fontWeight: "bold" }}>
-        Id
+        Sku
       </Typography>
       <Typography sx={{ flex: 1, textAlign: "center", fontWeight: "bold" }}>
         Name

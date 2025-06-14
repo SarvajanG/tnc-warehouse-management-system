@@ -5,7 +5,6 @@ import {
   getDoc,
   updateDoc,
   increment,
-  serverTimestamp,
 } from "firebase/firestore";
 import InputField from "../components/InputField";
 import HomeButton from "../components/HomeButton";
@@ -25,11 +24,46 @@ export default function ScanOut() {
   let oldItemId = useRef(null);
   let itemQuantity = useRef(null);
 
+  function splitBarcode(barcode) {
+    const [sku, sn] = barcode.trim().split("|");
+    if (!sku || !sn) return null;
+    return [sku, sn];
+  }
+
+  function resetFields() {
+    setBarcode("");
+    setItemName("");
+  }
+
   const handleScan = async (e) => {
     setMessage("");
     if (e.key === "Enter" && barcode) {
-      const itemId = barcode.trim();
-      const itemRef = doc(db, "items", itemId);
+      const splitResult = splitBarcode(barcode);
+      if (!splitResult) {
+        setMessage(
+          "Invalid barcode! Please scan a code in format: SKU|SerialNumber"
+        );
+        resetFields();
+        return;
+      }
+
+      const [itemId, sn] = splitResult;
+      const itemRef = doc(db, "items", itemId); //SKU reference
+      const serialRef = doc(itemRef, "serials", sn); //Serial Number reference
+
+      //If Serial exists and already scanned OUT return if doesn't exist return
+      const serialSnap = await getDoc(serialRef);
+      if (serialSnap.exists()) {
+        if (serialSnap.data().status === "OUT") {
+          setMessage("This item is already scanned OUT");
+          resetFields();
+          return;
+        }
+      } else {
+        setMessage("This item was never scanned IN");
+        resetFields();
+        return;
+      }
 
       //Logic to only request document once for consecutive scans
       if (oldItemId.current !== itemId) {
@@ -45,22 +79,46 @@ export default function ScanOut() {
         oldItemId.current = itemId;
       }
 
+      // Update SKU document
       try {
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}),
           quantity: increment(-1),
-          lastScanned: serverTimestamp(),
         });
         itemQuantity.current -= 1;
         setMessage(`Updated quantity for ${itemId} is ${itemQuantity.current}`);
       } catch (err) {
         if (err.code === "not-found") {
-          setMessage("Item doesn't exist in storage");
+          setMessage("SKU/Serial doesn't exist in storage");
         }
       }
 
-      setBarcode("");
-      setItemName("");
+      // Get current scanHistory or initialize as [] if not present
+      const currentScanHistory = serialSnap.data().scanHistory || [];
+
+      // Modify the most recent entry in the array (the last one)
+      const newScanHistory = [...currentScanHistory];
+      newScanHistory[newScanHistory.length - 1] = {
+        ...newScanHistory[newScanHistory.length - 1],
+        scanOutTime: new Date().toISOString(),
+      };
+
+      // Update/Create Serial Number subcollection document
+      // This must execute before SKU doc because it will exit function if Serial doesn't exist
+      try {
+        await updateDoc(serialRef, {
+          serial: sn,
+          status: "OUT",
+          scanHistory: newScanHistory,
+        });
+      } catch (err) {
+        console.error("Error updating serial/subcollection document:", err);
+        setMessage("SKU/Serial doesn't exist in storage");
+        resetFields();
+        return;
+      }
+
+      resetFields();
     }
   };
 

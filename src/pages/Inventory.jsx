@@ -18,18 +18,16 @@ export default function Inventory() {
   const [items, setItems] = useState([]);
   const [itemViewVisible, setItemViewVisible] = useState(false);
   const [itemValues, setItemValues] = useState({
-    Id: "",
-    Name: "",
-    Quantity: "",
+    sku: "",
+    name: "",
+    quantity: "",
   });
 
   const fetchItems = async () => {
     const itemsRef = collection(db, "items");
     const itemsSnap = await getDocs(itemsRef);
-    const itemsList = itemsSnap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const itemsList = itemsSnap.docs.map((doc) => doc.data());
+    console.log(itemsList);
     setItems(itemsList);
   };
 
@@ -37,11 +35,11 @@ export default function Inventory() {
     fetchItems();
   }, []);
 
-  const itemViewHandler = (Id, Name, Quantity) => {
+  const itemViewHandler = (sku, name, quantity) => {
     setItemValues({
-      Id: Id,
-      Name: Name,
-      Quantity: Quantity,
+      sku: sku,
+      name: name,
+      quantity: quantity,
     });
     toggleItemView();
   };
@@ -71,25 +69,25 @@ export default function Inventory() {
         {items.map((item, index) => (
           <InventoryItem
             key={index}
-            id={item.id}
+            sku={item.sku}
             name={item.name}
             quantity={item.quantity}
-            onClick={() => itemViewHandler(item.id, item.name, item.quantity)}
+            onClick={() => itemViewHandler(item.sku, item.name, item.quantity)}
           />
         ))}
       </ItemContainer>
       {itemViewVisible && (
         <ItemView
-          Id={itemValues.Id}
-          Name={itemValues.Name}
-          Quantity={itemValues.Quantity}
+          sku={itemValues.sku}
+          name={itemValues.name}
+          quantity={itemValues.quantity}
           onClick={toggleItemView}
           onUpdate={() => {
-            fetchItems();           // Refresh item list
-            toggleItemView();       // Close the ItemView
+            fetchItems(); // Refresh item list
+            toggleItemView(); // Close the ItemView
           }}
           onDelete={() => {
-            fetchItems(); 
+            fetchItems();
             toggleItemView();
           }}
         />

@@ -8,12 +8,12 @@ import { Button, Box, Typography, IconButton } from "@mui/material";
 import Container from "./Container";
 
 export default function ItemView(props) {
-  const [name, setName] = useState(props.Name);
-  const [quantity, setQuantity] = useState(props.Quantity);
+  const [name, setName] = useState(props.name);
+  const [quantity, setQuantity] = useState(props.quantity);
 
   const handleUpdate = async () => {
     try {
-      const docRef = doc(db, "items", props.Id); // Adjust collection name as needed
+      const docRef = doc(db, "items", props.sku); // Adjust collection name as needed
       await updateDoc(docRef, {
         name: name,
         quantity: quantity,
@@ -27,7 +27,7 @@ export default function ItemView(props) {
 
   const handleDelete = async () => {
     try {
-      const docRef = doc(db, "items", props.Id);
+      const docRef = doc(db, "items", props.sku);
       await deleteDoc(docRef);
       alert("Item deleted!");
       if (props.onDelete) props.onDelete(); // optional callback
@@ -84,18 +84,18 @@ export default function ItemView(props) {
         >
           <Box
           sx={{width: "30rem"}}>
-            <Typography>Id</Typography>
-            <InputField label={props.Id} disabled/>
+            <Typography>Sku</Typography>
+            <InputField label={props.sku} disabled/>
           </Box>
           <Box
           sx={{width: "30rem"}}>
             <Typography>Name</Typography>
-            <InputField label={props.Name} onChange={(e) => setName(e.target.value)}/>
+            <InputField label={props.name} onChange={(e) => setName(e.target.value)}/>
           </Box>
           <Box
           sx={{width: "30rem"}}>
             <Typography>Quantity</Typography>
-            <InputField label={props.Quantity} onChange={(e) => setQuantity(e.target.value)}/>
+            <InputField label={props.quantity} onChange={(e) => setQuantity(e.target.value)}/>
           </Box>
           <Box
           sx={{

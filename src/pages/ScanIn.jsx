@@ -6,7 +6,7 @@ import {
   setDoc,
   updateDoc,
   increment,
-  serverTimestamp,
+  arrayUnion,
 } from "firebase/firestore";
 import InputField from "../components/InputField";
 import HomeButton from "../components/HomeButton";
@@ -26,12 +26,43 @@ export default function ScanIn() {
   let oldItemId = useRef(null);
   let itemQuantity = useRef(null);
 
+  function splitBarcode(barcode) {
+    const [sku, sn] = barcode.trim().split("|");
+    if (!sku || !sn) return null;
+    return [sku, sn];
+  }
+
+  function resetFields() {
+    setBarcode("");
+    setItemName("");
+  }
+
   const handleScan = async (e) => {
     setMessage("");
     if (e.key === "Enter" && barcode) {
-      const itemId = barcode.trim();
-      const itemRef = doc(db, "items", itemId);
+      const splitResult = splitBarcode(barcode);
+      if (!splitResult) {
+        setMessage(
+          "Invalid barcode! Please scan a code in format: SKU|SerialNumber"
+        );
+        resetFields();
+        return;
+      }
 
+      const [itemId, sn] = splitResult;
+      const itemRef = doc(db, "items", itemId); //SKU reference
+      const serialRef = doc(itemRef, "serials", sn); //Serial Number reference
+
+      //If Serial exists and already scanned IN return
+      const serialSnap = await getDoc(serialRef);
+      if (serialSnap.exists()) {
+        if (serialSnap.data().status === "IN") {
+          setMessage("This item is already scanned IN");
+          resetFields();
+          return;
+        }
+      }
+      
       //Logic to only request document once for consecutive scans
       if (oldItemId.current !== itemId) {
         try {
@@ -48,11 +79,11 @@ export default function ScanIn() {
         oldItemId.current = itemId;
       }
 
+      // Update/Create SKU document
       try {
         await updateDoc(itemRef, {
           ...(itemName ? { name: itemName } : {}),
           quantity: increment(1),
-          lastScanned: serverTimestamp(),
         });
         itemQuantity.current += 1;
         setMessage(`Updated quantity for ${itemId} is ${itemQuantity.current}`);
@@ -60,19 +91,38 @@ export default function ScanIn() {
         if (err.code === "not-found") {
           await setDoc(itemRef, {
             ...(itemName ? { name: itemName } : { name: "Unknown" }),
+            sku: itemId,
             quantity: 1,
-            lastScanned: serverTimestamp(),
           });
           itemQuantity.current = 1;
-          setMessage(`Created new item ${itemId}`);
+          setMessage(`Created new SKU ${itemId}`);
         } else {
           console.error(err);
           setMessage("Error occurred during scan");
         }
       }
 
-      setBarcode("");
-      setItemName("");
+      // Update/Create Serial Number subcollection document
+      try {
+        await setDoc(
+          serialRef,
+          {
+            serial: sn,
+            status: "IN",
+            scanHistory: arrayUnion({
+              scanInTime: new Date().toISOString(),
+            }),
+          },
+          { merge: true }
+        );
+      } catch (err) {
+        console.error("Error updating serial/subcollection document:", err);
+        setMessage("Serial/Scanning error");
+        resetFields();
+        return;
+      }
+
+      resetFields();
     }
   };
 

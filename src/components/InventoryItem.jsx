@@ -16,7 +16,7 @@ export default function InventoryItem(props) {
         cursor: "pointer"
       }}
     >
-      <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.id}</Typography>
+      <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.sku}</Typography>
       <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.name}</Typography>
       <Typography fontSize="clamp(0.8rem, 0.5vw + 0.5rem, 2.5rem)" sx={{ flex: 1, textAlign: "center" }}>{props.quantity}</Typography>
     </Box>
