@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
-import { db } from "../firebase"; 
+import { doc, updateDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import InputField from "../components/InputField";
@@ -18,18 +18,30 @@ export default function ItemView(props) {
         name: name,
         quantity: quantity,
       });
-      alert("Item updated!");
+      alert("SKU updated!");
       if (props.onUpdate) props.onUpdate(); // optional callback
     } catch (err) {
       console.error("Update failed", err);
     }
   };
 
+  // Recursively delete all docs in a subcollection
+  async function deleteCollection(ref) {
+    const snapshot = await getDocs(ref);
+    const promises = [];
+    snapshot.forEach((docSnap) => {
+      promises.push(deleteDoc(docSnap.ref));
+    });
+    await Promise.all(promises);
+  }
+
   const handleDelete = async () => {
     try {
-      const docRef = doc(db, "items", props.sku);
-      await deleteDoc(docRef);
-      alert("Item deleted!");
+      const itemDocRef = doc(db, "items", props.sku);
+      const serialsCollRef = collection(db, "items", props.sku, "serials");
+      await deleteCollection(serialsCollRef);
+      await deleteDoc(itemDocRef);
+      alert("SKU deleted!");
       if (props.onDelete) props.onDelete(); // optional callback
     } catch (err) {
       console.error("Delete failed", err);
@@ -82,41 +94,57 @@ export default function ItemView(props) {
             borderRadius: "25px",
           }}
         >
-          <Box
-          sx={{width: "30rem"}}>
-            <Typography>Sku</Typography>
-            <InputField label={props.sku} disabled/>
+          <Box sx={{ width: "30rem" }}>
+            <Typography>SKU</Typography>
+            <InputField label={props.sku} disabled />
           </Box>
-          <Box
-          sx={{width: "30rem"}}>
+          <Box sx={{ width: "30rem" }}>
             <Typography>Name</Typography>
-            <InputField label={props.name} onChange={(e) => setName(e.target.value)}/>
+            <InputField
+              label={props.name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </Box>
-          <Box
-          sx={{width: "30rem"}}>
+          <Box sx={{ width: "30rem" }}>
             <Typography>Quantity</Typography>
-            <InputField label={props.quantity} onChange={(e) => setQuantity(e.target.value)}/>
+            <InputField
+              label={props.quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+            />
           </Box>
           <Box
-          sx={{
-            height: "20%",
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            padding: "1rem 0"
-          }}>
+            sx={{
+              height: "20%",
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              padding: "1rem 0",
+            }}
+          >
             <Button
               variant="contained"
-              sx={{ backgroundColor: "purple", width: "30rem", height: "4rem", fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)", marginRight: "0.5rem" }}
+              sx={{
+                backgroundColor: "purple",
+                width: "30rem",
+                height: "4rem",
+                fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
+                marginRight: "0.5rem",
+              }}
               onClick={handleUpdate}
             >
               UPDATE
             </Button>
             <Button
               variant="contained"
-              sx={{ backgroundColor: "red", width: "30rem", height: "4rem", fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)", marginLeft: "0.5rem" }}
+              sx={{
+                backgroundColor: "red",
+                width: "30rem",
+                height: "4rem",
+                fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
+                marginLeft: "0.5rem",
+              }}
               onClick={handleDelete}
             >
               DELETE

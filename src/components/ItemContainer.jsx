@@ -4,6 +4,7 @@ export default function ItemContainer({
   children,
   height,
   maxWidth = "25rem",
+  maxHeight,
   overflow,
   className
 }) {
@@ -14,6 +15,7 @@ export default function ItemContainer({
         height: height,
         width: "100%",
         maxWidth: maxWidth,
+        maxHeight: maxHeight,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-evenly",

@@ -11,6 +11,7 @@ import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 
 import ItemView from "../components/ItemView";
+import ExportToCSV from "../components/ExportToCSV";
 
 export default function Inventory() {
   useAuthChecker();
@@ -59,9 +60,10 @@ export default function Inventory() {
       >
         Inventory
       </Typography>
+      <ExportToCSV />
       <ItemContainer
         className="scrollable-inventory"
-        height="70%"
+        maxHeight="70%"
         maxWidth="100%"
         overflow="auto"
       >
