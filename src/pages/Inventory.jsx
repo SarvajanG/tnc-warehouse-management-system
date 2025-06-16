@@ -6,7 +6,7 @@ import InventoryItem from "../components/InventoryItem";
 import useAuthChecker from "../hooks/useAuthChecker";
 import { useEffect, useState } from "react";
 import InventoryLabels from "../components/InventoryLabels";
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 
@@ -24,6 +24,51 @@ export default function Inventory() {
     quantity: "",
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortConfig, setSortConfig] = useState({
+    key: null, // "sku", "name", "quantity"
+    direction: "asc", // "asc" or "desc"
+  });
+
+  const handleSort = (key) => {
+    setSortConfig((prevConfig) => {
+      // If clicking same column, toggle direction
+      const direction =
+        prevConfig.key === key && prevConfig.direction === "asc"
+          ? "desc"
+          : "asc";
+      return { key, direction };
+    });
+  };
+
+  const filteredItems = items.filter((item) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      item.sku?.toLowerCase().includes(query) ||
+      item.name?.toLowerCase().includes(query) ||
+      String(item.quantity).toLowerCase().includes(query)
+    );
+  });
+
+  const sortedItems = [...filteredItems].sort((a, b) => {
+    if (!sortConfig.key) return 0; // No sort
+    let aValue = a[sortConfig.key];
+    let bValue = b[sortConfig.key];
+
+    // Ensure numbers for quantity, else strings
+    if (sortConfig.key === "quantity") {
+      aValue = Number(aValue);
+      bValue = Number(bValue);
+    } else {
+      // Normalize for case-insensitive sorting
+      aValue = (aValue || "").toString().toLowerCase();
+      bValue = (bValue || "").toString().toLowerCase();
+    }
+
+    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
   const fetchItems = async () => {
     const itemsRef = collection(db, "items");
     const itemsSnap = await getDocs(itemsRef);
@@ -52,6 +97,8 @@ export default function Inventory() {
   return (
     <Container>
       <HomeButton />
+      <ExportToCSV />
+
       <Typography
         color={"white"}
         fontWeight={"bold"}
@@ -60,15 +107,46 @@ export default function Inventory() {
       >
         Inventory
       </Typography>
-      <ExportToCSV />
+
       <ItemContainer
         className="scrollable-inventory"
         maxHeight="70%"
         maxWidth="100%"
         overflow="auto"
       >
-        <InventoryLabels />
-        {items.map((item, index) => (
+        <TextField
+          label="Search inventory..."
+          value={searchQuery}
+          variant="filled"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          sx={{
+            width: "100%",
+            border: "none",
+            borderRadius: "4px",
+            backgroundColor: "white",
+            margin: "0.5rem 0",
+            position: "sticky",
+            top: 0,
+            zIndex: 1,
+            "& .MuiFilledInput-root": {
+              "&:after": {
+                borderBottomColor: "orange", // Focus color
+              },
+            },
+            "& .MuiInputLabel-root": {
+              "&.Mui-focused": {
+                color: "orange", // Label focus color
+              },
+            },
+          }}
+        />
+        <InventoryLabels
+          onSkuClick={() => handleSort("sku")}
+          onNameClick={() => handleSort("name")}
+          onQuantityClick={() => handleSort("quantity")}
+          sortConfig={sortConfig}
+        />
+        {sortedItems.map((item, index) => (
           <InventoryItem
             key={index}
             sku={item.sku}

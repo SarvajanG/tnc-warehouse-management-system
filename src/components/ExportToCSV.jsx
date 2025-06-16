@@ -83,7 +83,9 @@ export default function ExportToCSV() {
         width: "8rem",
         height: "2rem",
         fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
-        marginBottom: "1rem",
+        position: "fixed",
+        top: "2rem",
+        left: "2rem",
       }}
       onClick={exportScanHistoryToCSV}
     >
