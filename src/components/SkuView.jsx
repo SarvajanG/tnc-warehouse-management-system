@@ -1,13 +1,20 @@
 import { useState } from "react";
-import { doc, updateDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import InputField from "../components/InputField";
+import InputField from "./InputField";
 import { Button, Box, Typography, IconButton } from "@mui/material";
 import Container from "./Container";
+import ScanHistory from "./ScanHistory";
 
-export default function ItemView(props) {
+export default function SkuView(props) {
   const [name, setName] = useState(props.name);
   const [quantity, setQuantity] = useState(props.quantity);
 
@@ -72,7 +79,7 @@ export default function ItemView(props) {
         fontSize="clamp(1rem, 4vw + 1rem, 2.5rem)" // Adjust these values as needed
         textAlign={"center"}
       >
-        ItemView
+        SKU View
       </Typography>
       <Box
         sx={{
@@ -86,69 +93,101 @@ export default function ItemView(props) {
             height: "100%",
             width: "100%",
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "space-evenly",
             alignItems: "center",
-            padding: "0 1rem",
+            padding: "1rem 1rem",
             backgroundColor: "orange",
             borderRadius: "25px",
           }}
         >
-          <Box sx={{ width: "30rem" }}>
-            <Typography>SKU</Typography>
-            <InputField label={props.sku} disabled />
-          </Box>
-          <Box sx={{ width: "30rem" }}>
-            <Typography>Name</Typography>
-            <InputField
-              label={props.name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Box>
-          <Box sx={{ width: "30rem" }}>
-            <Typography>Quantity</Typography>
-            <InputField
-              label={props.quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
+          <Box
+            sx={{
+              height: "100%",
+              width: "50%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              padding: "0 2rem",
+              marginRight: "0.5rem",
+              backgroundColor: "purple",
+              color: "white",
+              borderRadius: "25px",
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <Typography>SKU</Typography>
+              <InputField label={props.sku} disabled />
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <Typography>Name</Typography>
+              <InputField
+                label={props.name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <Typography>Quantity</Typography>
+              <InputField
+                label={props.quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </Box>
+            <Box
+              sx={{
+                height: "20%",
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                padding: "1rem 0",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "orange",
+                  width: "30rem",
+                  height: "4rem",
+                  fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
+                  marginRight: "1rem",
+                }}
+                onClick={handleUpdate}
+              >
+                UPDATE
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "red",
+                  width: "30rem",
+                  height: "4rem",
+                  fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
+                  marginLeft: "1rem",
+                }}
+                onClick={handleDelete}
+              >
+                DELETE
+              </Button>
+            </Box>
           </Box>
           <Box
             sx={{
-              height: "20%",
-              width: "100%",
+              height: "100%",
+              width: "50%",
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
+              flexDirection: "column",
+              //justifyContent: "space-evenly",
               alignItems: "center",
-              padding: "1rem 0",
+              padding: "4rem 1rem",
+              marginLeft: "0.5rem",
+              backgroundColor: "purple",
+              borderRadius: "25px",
             }}
           >
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "purple",
-                width: "30rem",
-                height: "4rem",
-                fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
-                marginRight: "0.5rem",
-              }}
-              onClick={handleUpdate}
-            >
-              UPDATE
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: "red",
-                width: "30rem",
-                height: "4rem",
-                fontSize: "clamp(0.9rem, 1.2vw, 1.2rem)",
-                marginLeft: "0.5rem",
-              }}
-              onClick={handleDelete}
-            >
-              DELETE
-            </Button>
+            <ScanHistory sku={props.sku} />
           </Box>
         </Box>
       </Box>

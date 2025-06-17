@@ -10,14 +10,14 @@ import { TextField, Typography } from "@mui/material";
 import { db } from "../firebase";
 import { getDocs, collection } from "firebase/firestore";
 
-import ItemView from "../components/ItemView";
+import SkuView from "../components/SkuView";
 import ExportToCSV from "../components/ExportToCSV";
 
 export default function Inventory() {
   useAuthChecker();
 
   const [items, setItems] = useState([]);
-  const [itemViewVisible, setItemViewVisible] = useState(false);
+  const [skuViewVisible, setSkuViewVisible] = useState(false);
   const [itemValues, setItemValues] = useState({
     sku: "",
     name: "",
@@ -81,17 +81,17 @@ export default function Inventory() {
     fetchItems();
   }, []);
 
-  const itemViewHandler = (sku, name, quantity) => {
+  const skuViewHandler = (sku, name, quantity) => {
     setItemValues({
       sku: sku,
       name: name,
       quantity: quantity,
     });
-    toggleItemView();
+    toggleSkuView();
   };
 
-  const toggleItemView = () => {
-    setItemViewVisible(!itemViewVisible);
+  const toggleSkuView = () => {
+    setSkuViewVisible(!skuViewVisible);
   };
 
   return (
@@ -152,23 +152,23 @@ export default function Inventory() {
             sku={item.sku}
             name={item.name}
             quantity={item.quantity}
-            onClick={() => itemViewHandler(item.sku, item.name, item.quantity)}
+            onClick={() => skuViewHandler(item.sku, item.name, item.quantity)}
           />
         ))}
       </ItemContainer>
-      {itemViewVisible && (
-        <ItemView
+      {skuViewVisible && (
+        <SkuView
           sku={itemValues.sku}
           name={itemValues.name}
           quantity={itemValues.quantity}
-          onClick={toggleItemView}
+          onClick={toggleSkuView}
           onUpdate={() => {
             fetchItems(); // Refresh item list
-            toggleItemView(); // Close the ItemView
+            toggleSkuView(); // Close the SkuView
           }}
           onDelete={() => {
             fetchItems();
-            toggleItemView();
+            toggleSkuView();
           }}
         />
       )}

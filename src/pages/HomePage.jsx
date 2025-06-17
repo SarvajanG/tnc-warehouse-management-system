@@ -7,6 +7,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import { Typography } from "@mui/material";
 import Container from "../components/Container";
 import ItemContainer from "../components/ItemContainer";
+import BarcodeStringGenerator from "../components/BarcodeStringGenerator";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function HomePage() {
 
   return (
     <Container>
+      <BarcodeStringGenerator />
       <Typography
         color={"white"}
         fontWeight={"bold"}

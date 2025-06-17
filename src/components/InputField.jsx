@@ -16,6 +16,7 @@ export default function InputField(props) {
         border: "none",
         borderRadius: "4px",
         backgroundColor: "white",
+        my: props.my,
         "& .MuiFilledInput-root": {
           "&:after": {
             borderBottomColor: "orange", // Focus color
