@@ -99,6 +99,12 @@ export default function SkuView(props) {
             padding: "1rem 1rem",
             backgroundColor: "orange",
             borderRadius: "25px",
+            "@media (max-width:900px)": {
+              flexDirection: "column",
+              height: "auto", // optional, let content expand vertically
+              alignItems: "stretch", // optional, let child containers be full width
+              gap: "1rem"
+            },
           }}
         >
           <Box
@@ -114,6 +120,11 @@ export default function SkuView(props) {
               backgroundColor: "purple",
               color: "white",
               borderRadius: "25px",
+              "@media (max-width:900px)": {
+                width: "100%",
+                margin: 0, // to prevent unwanted horizontal scroll
+                padding: "2rem 1rem", // tweak as needed
+              },
             }}
           >
             <Box sx={{ width: "100%" }}>
@@ -185,6 +196,12 @@ export default function SkuView(props) {
               marginLeft: "0.5rem",
               backgroundColor: "purple",
               borderRadius: "25px",
+              "@media (max-width:900px)": {
+                width: "100%",
+                //height: "25rem",
+                margin: 0, // to prevent unwanted horizontal scroll
+                padding: "2rem 0", // tweak as needed
+              },
             }}
           >
             <ScanHistory sku={props.sku} />

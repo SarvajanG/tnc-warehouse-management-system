@@ -13,6 +13,7 @@ export default function Container({children, position, zIndex}) {
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
+        overflow: "auto"
       }}
     >{children}</Box>
   );
